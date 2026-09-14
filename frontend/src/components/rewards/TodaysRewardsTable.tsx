@@ -27,9 +27,9 @@ import { toast } from "@/hooks/use-toast";
 import type { Reward } from "@/services/api";
 
 const statusConfig = {
-  pending: { label: "Pending", variant: "secondary" as const, className: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20" },
-  processing: { label: "Processing", variant: "outline" as const, className: "bg-blue-500/10 text-blue-600 border-blue-500/20" },
-  credited: { label: "Credited", variant: "default" as const, className: "bg-green-500/10 text-green-600 border-green-500/20" },
+  pending: { label: "Pending", variant: "secondary" as const, className: "bg-warning/10 text-warning border-warning/20" },
+  processing: { label: "Processing", variant: "outline" as const, className: "bg-accent/10 text-accent border-accent/20" },
+  credited: { label: "Credited", variant: "default" as const, className: "bg-success/10 text-success border-success/20" },
 };
 
 type StatusFilter = "all" | "pending" | "processing" | "credited";

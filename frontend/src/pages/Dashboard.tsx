@@ -22,8 +22,9 @@ export default function Dashboard() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatsCard
           title="Portfolio Value"
-          value={isLoading ? "Loading..." : formatCompactINR(summary?.totalValue || 0)}
+          value={formatCompactINR(summary?.totalValue || 0)}
           icon={Wallet}
+          isLoading={isLoading}
           trend={
             summary?.growthPercent
               ? {
@@ -35,21 +36,24 @@ export default function Dashboard() {
         />
         <StatsCard
           title="Total Shares"
-          value={isLoading ? "Loading..." : formatQuantity(summary?.totalShares || 0)}
+          value={formatQuantity(summary?.totalShares || 0)}
           subtitle="Across all stocks"
           icon={PieChart}
+          isLoading={isLoading}
         />
         <StatsCard
           title="Today's Rewards"
-          value={isLoading ? "Loading..." : String(summary?.todayRewards || 0)}
+          value={String(summary?.todayRewards || 0)}
           subtitle="Rewards received today"
           icon={Gift}
+          isLoading={isLoading}
         />
         <StatsCard
           title="Growth"
-          value={isLoading ? "Loading..." : formatPercentage(summary?.growthPercent || 0)}
+          value={formatPercentage(summary?.growthPercent || 0)}
           subtitle="Since last month"
           icon={TrendingUp}
+          isLoading={isLoading}
           trend={
             summary?.growthPercent
               ? {

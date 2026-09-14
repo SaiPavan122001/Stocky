@@ -137,7 +137,7 @@ export function HoldingsTable() {
               <CardTitle>Your Holdings</CardTitle>
               <CardDescription>
                 Total Value: {formatCurrency(totalValue)} · P&L:{" "}
-                <span className={cn(totalPnl >= 0 ? "text-green-600" : "text-red-600")}>
+                <span className={cn(totalPnl >= 0 ? "text-success" : "text-destructive")}>
                   {totalPnl >= 0 ? "+" : ""}
                   {formatCurrency(totalPnl)}
                 </span>
@@ -267,7 +267,7 @@ function HoldingRow({ holding }: { holding: Holding }) {
         {formatCurrency(holding.totalValue)}
       </TableCell>
       <TableCell className="text-right">
-        <div className={cn("flex items-center justify-end gap-1", isPositive ? "text-green-600" : "text-red-600")}>
+        <div className={cn("flex items-center justify-end gap-1", isPositive ? "text-success" : "text-destructive")}>
           {isPositive ? (
             <TrendingUp className="h-4 w-4" />
           ) : (
@@ -279,7 +279,6 @@ function HoldingRow({ holding }: { holding: Holding }) {
               {formatCurrency(holding.pnl)}
             </div>
             <div className="text-sm">
-              {isPositive ? "+" : ""}
               {formatPercent(holding.pnlPercent)}
             </div>
           </div>

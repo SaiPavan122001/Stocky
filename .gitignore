@@ -24,10 +24,11 @@ backend-price/**/__pycache__/
 backend-price/.venv/
 backend-price/*.pyc
 
-# Env files (keep .env.example)
+# Env files (.env.development / .env.production hold no secrets and are
+# committed on purpose; .env / .env.local are for real local overrides/secrets)
 .env
-.env.*
-!.env.example
+.env.local
+.env.*.local
 
 # Docker / Postgres
 pgdata/

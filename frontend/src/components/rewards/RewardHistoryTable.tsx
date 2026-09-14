@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useTodayRewards } from "@/hooks/useStocks";
+import { useAllRewards } from "@/hooks/useStocks";
 import { formatQuantity, formatDateTime } from "@/utils/formatters";
 import type { Reward } from "@/services/api";
 
@@ -23,7 +23,7 @@ const statusConfig = {
 };
 
 export function RewardHistoryTable() {
-  const { data: rewards = [], isLoading } = useTodayRewards();
+  const { data: rewards = [], isLoading } = useAllRewards();
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredRewards = useMemo(() => {

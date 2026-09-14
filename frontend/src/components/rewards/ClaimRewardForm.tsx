@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { useStocks, useClaimReward } from "@/hooks/useStocks";
 import { toast } from "@/hooks/use-toast";
+import { ApiError } from "@/services/http";
 
 const claimSchema = z.object({
   symbol: z.string().min(1, "Please select a stock"),
@@ -68,7 +69,10 @@ export function ClaimRewardForm() {
     } catch (error) {
       toast({
         title: "Claim Failed",
-        description: "There was an error processing your reward claim. Please try again.",
+        description:
+          error instanceof ApiError
+            ? error.message
+            : "There was an error processing your reward claim. Please try again.",
         variant: "destructive",
       });
     }

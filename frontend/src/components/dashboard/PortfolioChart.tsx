@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { LineChart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useChartData } from "@/hooks/useStocks";
 import { formatINR, formatDate } from "@/utils/formatters";
 import { cn } from "@/lib/utils";
@@ -39,8 +41,11 @@ export function PortfolioChart() {
       </CardHeader>
       <CardContent className="pt-4">
         {isLoading ? (
-          <div className="h-[300px] flex items-center justify-center">
-            <div className="animate-pulse text-muted-foreground">Loading chart...</div>
+          <Skeleton className="h-[300px] w-full" />
+        ) : chartData.length === 0 ? (
+          <div className="h-[300px] flex flex-col items-center justify-center gap-2 text-center text-muted-foreground">
+            <LineChart className="h-8 w-8" />
+            <p className="text-sm">Not enough history yet — check back after your first day of activity</p>
           </div>
         ) : (
           <ResponsiveContainer width="100%" height={300}>

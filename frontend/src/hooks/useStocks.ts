@@ -3,6 +3,7 @@ import {
   fetchStocks,
   fetchHoldings,
   fetchTodayRewards,
+  fetchAllRewards,
   fetchPortfolioSummary,
   fetchChartData,
   fetchRecentActivity,
@@ -28,6 +29,13 @@ export function useTodayRewards() {
   return useQuery({
     queryKey: ["todayRewards"],
     queryFn: fetchTodayRewards,
+  });
+}
+
+export function useAllRewards() {
+  return useQuery({
+    queryKey: ["allRewards"],
+    queryFn: fetchAllRewards,
   });
 }
 
@@ -60,6 +68,7 @@ export function useClaimReward() {
       claimReward(symbol, quantity),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todayRewards"] });
+      queryClient.invalidateQueries({ queryKey: ["allRewards"] });
       queryClient.invalidateQueries({ queryKey: ["portfolioSummary"] });
       queryClient.invalidateQueries({ queryKey: ["recentActivity"] });
     },
