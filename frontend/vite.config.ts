@@ -5,9 +5,14 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  // Relative asset paths are required for Capacitor's native WebView, which
+  // serves the built app from file:// rather than an http(s) origin.
+  base: "./",
   server: {
     host: "::",
-    port: 8080,
+    // 8080 (the old default here) collides with backend-go, which also
+    // listens on 8080 -- moved to Vite's own conventional default instead.
+    port: 5173,
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {

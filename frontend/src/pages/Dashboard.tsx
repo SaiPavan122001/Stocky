@@ -23,6 +23,8 @@ export default function Dashboard() {
         <StatsCard
           title="Portfolio Value"
           value={formatCompactINR(summary?.totalValue || 0)}
+          numericValue={summary?.totalValue || 0}
+          formatValue={formatCompactINR}
           icon={Wallet}
           isLoading={isLoading}
           trend={
@@ -37,6 +39,8 @@ export default function Dashboard() {
         <StatsCard
           title="Total Shares"
           value={formatQuantity(summary?.totalShares || 0)}
+          numericValue={summary?.totalShares || 0}
+          formatValue={formatQuantity}
           subtitle="Across all stocks"
           icon={PieChart}
           isLoading={isLoading}
@@ -44,6 +48,8 @@ export default function Dashboard() {
         <StatsCard
           title="Today's Rewards"
           value={String(summary?.todayRewards || 0)}
+          numericValue={summary?.todayRewards || 0}
+          formatValue={(n) => String(Math.round(n))}
           subtitle="Rewards received today"
           icon={Gift}
           isLoading={isLoading}
@@ -51,6 +57,8 @@ export default function Dashboard() {
         <StatsCard
           title="Growth"
           value={formatPercentage(summary?.growthPercent || 0)}
+          numericValue={summary?.growthPercent || 0}
+          formatValue={formatPercentage}
           subtitle="Since last month"
           icon={TrendingUp}
           isLoading={isLoading}

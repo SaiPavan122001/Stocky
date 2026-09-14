@@ -1,4 +1,5 @@
 import { Gift, CheckCircle, Inbox } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRecentActivity } from "@/hooks/useStocks";
@@ -32,35 +33,43 @@ export function RecentActivity() {
             <p className="text-sm">No activity yet</p>
           </div>
         ) : (
-          activities.map((activity) => (
-            <div key={activity.id} className="flex items-center gap-3">
-              <div
-                className={cn(
-                  "flex h-8 w-8 items-center justify-center rounded-full",
-                  activity.type === "reward"
-                    ? "bg-warning/10 text-warning"
-                    : "bg-success/10 text-success"
-                )}
+          <AnimatePresence initial={false}>
+            {activities.map((activity, index) => (
+              <motion.div
+                key={activity.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: index * 0.04 }}
+                className="flex items-center gap-3"
               >
-                {activity.type === "reward" ? (
-                  <Gift className="h-4 w-4" />
-                ) : (
-                  <CheckCircle className="h-4 w-4" />
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">
-                  {activity.type === "reward" ? "Reward Received" : "Credited"}: {activity.symbol}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  +{formatQuantity(activity.quantity)} shares
-                </p>
-              </div>
-              <span className="text-xs text-muted-foreground">
-                {formatTime(activity.timestamp)}
-              </span>
-            </div>
-          ))
+                <div
+                  className={cn(
+                    "flex h-8 w-8 items-center justify-center rounded-full",
+                    activity.type === "reward"
+                      ? "bg-warning/10 text-warning"
+                      : "bg-success/10 text-success"
+                  )}
+                >
+                  {activity.type === "reward" ? (
+                    <Gift className="h-4 w-4" />
+                  ) : (
+                    <CheckCircle className="h-4 w-4" />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">
+                    {activity.type === "reward" ? "Reward Received" : "Credited"}: {activity.symbol}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    +{formatQuantity(activity.quantity)} shares
+                  </p>
+                </div>
+                <span className="text-xs text-muted-foreground">
+                  {formatTime(activity.timestamp)}
+                </span>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         )}
       </CardContent>
     </Card>

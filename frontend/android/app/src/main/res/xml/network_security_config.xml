@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Local-dev only: allows plain HTTP (not HTTPS) to the backend while
+  developing against backend-go running on your own machine. 10.0.2.2 is
+  the Android emulator's alias for the host machine's localhost; add your
+  machine's LAN IP here too when testing on a physical device on the same
+  Wi-Fi. Drop this file (and its reference in AndroidManifest.xml) once a
+  real HTTPS backend exists for release builds.
+-->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <domain includeSubdomains="false">localhost</domain>
+    </domain-config>
+</network-security-config>

@@ -22,7 +22,7 @@ See `.env.example` for the environment variables each service reads.
 
 ## Android
 
-See `frontend/README.md` for Capacitor build/packaging instructions once Phase 4 is reached.
+The Capacitor project is scaffolded (`frontend/android/`) but not yet built/tested on an emulator or device — that step needs Android Studio, the Android SDK, and a JDK installed. See `frontend/README.md` for the full workflow.
 
 ## Status
 
