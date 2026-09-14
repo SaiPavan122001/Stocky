@@ -10,6 +10,7 @@ import (
 	"stocky/backend-go/internal/auth"
 	"stocky/backend-go/internal/db"
 	"stocky/backend-go/internal/httpapi"
+	"stocky/backend-go/internal/priceclient"
 	"stocky/backend-go/internal/rewardworker"
 	"stocky/backend-go/internal/store"
 )
@@ -26,6 +27,7 @@ func main() {
 	jwtSecret := getenv("JWT_SECRET", "dev-secret-change-me")
 	port := getenv("PORT", "8080")
 	allowedOrigins := strings.Split(getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:8081,http://10.0.2.2:5173"), ",")
+	priceServiceURL := getenv("PRICE_SERVICE_URL", "http://localhost:5000")
 
 	conn, err := db.Open(dbPath)
 	if err != nil {
@@ -40,6 +42,10 @@ func main() {
 	stopWorker := make(chan struct{})
 	go rewardworker.Run(s, stopWorker)
 	defer close(stopWorker)
+
+	stopPoller := make(chan struct{})
+	go priceclient.NewPoller(s, priceServiceURL).Run(stopPoller)
+	defer close(stopPoller)
 
 	go runSnapshotLoop(s)
 

@@ -6,16 +6,19 @@ A stock-rewards / fractional-portfolio tracker: a Dashboard, Portfolio, Rewards,
 
 ```
 frontend/       React + TypeScript + Vite + shadcn/ui web app, also packaged as an Android app via Capacitor
-backend-go/     Core REST API: auth, holdings, rewards, portfolio, activity (Go + chi + Postgres)
-backend-price/  Market-data service: fetches real NSE prices via yfinance (Python + Flask)
-docker-compose.yml   Runs Postgres + both backend services locally
+backend-go/     Core REST API: auth, holdings, rewards, portfolio, activity (Go + chi + SQLite for now)
+backend-price/  Market-data service: fetches real NSE prices via yfinance (Python + Flask), internal only
 ```
 
 ## Local development
 
-1. `cp .env.example .env` and adjust if needed.
-2. `docker compose up --build` — starts Postgres, the Go API (`localhost:8080`), and the Flask price service (internal only).
+Runs as three native processes (no Docker/Postgres on this machine — see each service's README for why and how this differs from a typical cloud setup):
+
+1. `cd backend-price && python -m venv .venv && .venv\Scripts\activate && pip install -r requirements.txt && python run.py` — starts the price service on `:5000`.
+2. `cd backend-go && go run ./cmd/api` — starts the core API on `:8080` (creates/migrates `stocky.db` automatically).
 3. `cd frontend && npm install && npm run dev` — starts the web app against the local backend (`localhost:5173` by default).
+
+See `.env.example` for the environment variables each service reads.
 
 ## Android
 

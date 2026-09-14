@@ -81,13 +81,16 @@ CREATE TABLE IF NOT EXISTS portfolio_snapshots (
 
 CREATE INDEX IF NOT EXISTS idx_snapshots_user_date ON portfolio_snapshots(user_id, snapshot_date);
 
--- Seed the fixed watchlist matching the original mock data.
+-- Seed the fixed watchlist matching the original mock data. Symbols are
+-- real NSE tickers (required since prices are fetched from yfinance as
+-- "<symbol>.NS") -- note HDFCBANK/ICICIBANK, not the mock's informal
+-- "HDFC"/"ICICI" shorthand, which aren't valid NSE tickers.
 INSERT OR IGNORE INTO stocks (symbol, name) VALUES
   ('RELIANCE', 'Reliance Industries'),
   ('TCS', 'Tata Consultancy Services'),
   ('INFY', 'Infosys Limited'),
-  ('HDFC', 'HDFC Bank'),
-  ('ICICI', 'ICICI Bank'),
+  ('HDFCBANK', 'HDFC Bank'),
+  ('ICICIBANK', 'ICICI Bank'),
   ('WIPRO', 'Wipro Limited');
 
 -- Seed placeholder prices so the API has something to serve before the
@@ -96,6 +99,6 @@ INSERT OR IGNORE INTO price_cache (symbol, current_price, change, change_percent
   ('RELIANCE', 2456.75, 23.45, 0.96),
   ('TCS', 3789.20, -15.30, -0.40),
   ('INFY', 1567.85, 8.90, 0.57),
-  ('HDFC', 1678.50, 12.35, 0.74),
-  ('ICICI', 1023.40, -5.20, -0.51),
+  ('HDFCBANK', 1678.50, 12.35, 0.74),
+  ('ICICIBANK', 1023.40, -5.20, -0.51),
   ('WIPRO', 456.30, 3.15, 0.70);
