@@ -1,0 +1,51 @@
+# Node / frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Capacitor / Android
+frontend/android/app/build/
+frontend/android/.gradle/
+frontend/android/local.properties
+frontend/android/app/release/
+frontend/ios/
+
+# Go
+backend-go/bin/
+backend-go/*.exe
+backend-go/tmp/
+
+# Python
+backend-price/__pycache__/
+backend-price/**/__pycache__/
+backend-price/.venv/
+backend-price/*.pyc
+
+# Env files (keep .env.example)
+.env
+.env.*
+!.env.example
+
+# Docker / Postgres
+pgdata/
+
+# Editors / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
