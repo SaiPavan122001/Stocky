@@ -1,6 +1,7 @@
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, TrendingUp, TrendingDown } from "lucide-react";
 import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCountUp } from "@/hooks/useCountUp";
 import { cn } from "@/lib/utils";
@@ -38,39 +39,38 @@ export function StatsCard({
 
   return (
     <motion.div whileHover={{ y: -3 }} transition={{ duration: 0.15 }}>
-      <Card className={cn("overflow-hidden", className)}>
-        <CardContent className="p-6">
-          <div className="flex items-start justify-between">
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-muted-foreground">{title}</p>
-              {isLoading ? (
-                <Skeleton className="h-8 w-24" />
-              ) : (
-                <div className="flex items-baseline gap-2">
-                  <h3 className="text-2xl font-bold tracking-tight">{displayValue}</h3>
-                  {trend && (
-                    <span
-                      className={cn(
-                        "text-xs font-medium px-1.5 py-0.5 rounded",
-                        trend.positive
-                          ? "bg-success/10 text-success"
-                          : "bg-destructive/10 text-destructive"
-                      )}
-                    >
-                      {trend.value}
-                    </span>
-                  )}
-                </div>
-              )}
-              {subtitle && !isLoading && (
-                <p className="text-xs text-muted-foreground">{subtitle}</p>
-              )}
-            </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-              <Icon className="h-5 w-5 text-primary" />
-            </div>
+      <Card className={cn("relative overflow-hidden", className)}>
+        <div className="absolute top-6 right-6">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
+            <Icon className="h-4 w-4 text-primary" />
           </div>
-        </CardContent>
+        </div>
+        <CardHeader className="gap-1.5">
+          <CardDescription>{title}</CardDescription>
+          {isLoading ? (
+            <Skeleton className="h-8 w-24" />
+          ) : (
+            <CardTitle className="text-2xl tabular-nums">{displayValue}</CardTitle>
+          )}
+        </CardHeader>
+        {!isLoading && (trend || subtitle) && (
+          <CardDescription className="flex items-center gap-2 px-6 pb-6">
+            {trend && (
+              <Badge
+                variant="secondary"
+                className={cn(trend.positive ? "text-success" : "text-destructive")}
+              >
+                {trend.positive ? (
+                  <TrendingUp className="size-3" />
+                ) : (
+                  <TrendingDown className="size-3" />
+                )}
+                {trend.value}
+              </Badge>
+            )}
+            {subtitle}
+          </CardDescription>
+        )}
       </Card>
     </motion.div>
   );

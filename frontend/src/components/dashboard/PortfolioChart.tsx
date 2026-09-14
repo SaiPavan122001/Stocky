@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, XAxis, YAxis } from "recharts";
 import { LineChart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 import { useChartData } from "@/hooks/useStocks";
 import { formatINR, formatDate } from "@/utils/formatters";
 import { cn } from "@/lib/utils";
@@ -13,6 +14,13 @@ const periods = [
   { label: "30D", value: "30d" as const },
   { label: "All", value: "all" as const },
 ];
+
+const chartConfig: ChartConfig = {
+  value: {
+    label: "Portfolio Value",
+    color: "hsl(var(--primary))",
+  },
+};
 
 export function PortfolioChart() {
   const [period, setPeriod] = useState<"7d" | "30d" | "all">("30d");
@@ -48,12 +56,12 @@ export function PortfolioChart() {
             <p className="text-sm">Not enough history yet — check back after your first day of activity</p>
           </div>
         ) : (
-          <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+          <ChartContainer config={chartConfig} className="aspect-auto h-[300px] w-full">
+            <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }} accessibilityLayer>
               <defs>
                 <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                  <stop offset="5%" stopColor="var(--color-value)" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="var(--color-value)" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis
@@ -74,32 +82,32 @@ export function PortfolioChart() {
                 tickFormatter={(value) => `₹${(value / 1000).toFixed(0)}K`}
                 width={60}
               />
-              <Tooltip
-                content={({ active, payload }) => {
-                  if (active && payload && payload.length) {
-                    return (
-                      <div className="rounded-lg border bg-popover p-3 shadow-md">
-                        <p className="text-xs text-muted-foreground">
-                          {formatDate(payload[0].payload.date)}
-                        </p>
-                        <p className="text-sm font-semibold">
-                          {formatINR(payload[0].value as number)}
-                        </p>
+              <ChartTooltip
+                cursor={{ stroke: "hsl(var(--border))", strokeWidth: 1 }}
+                content={
+                  <ChartTooltipContent
+                    labelFormatter={(_, payload) => formatDate(payload?.[0]?.payload?.date)}
+                    formatter={(value) => (
+                      <div className="flex flex-1 items-center justify-between gap-4">
+                        <span className="text-muted-foreground">Portfolio Value</span>
+                        <span className="font-mono font-medium tabular-nums text-foreground">
+                          {formatINR(value as number)}
+                        </span>
                       </div>
-                    );
-                  }
-                  return null;
-                }}
+                    )}
+                  />
+                }
               />
               <Area
                 type="monotone"
                 dataKey="value"
-                stroke="hsl(var(--primary))"
+                stroke="var(--color-value)"
                 strokeWidth={2}
                 fill="url(#colorValue)"
+                activeDot={{ r: 4, strokeWidth: 2, stroke: "hsl(var(--background))" }}
               />
             </AreaChart>
-          </ResponsiveContainer>
+          </ChartContainer>
         )}
       </CardContent>
     </Card>

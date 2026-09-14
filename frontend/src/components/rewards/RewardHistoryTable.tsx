@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { Search } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
 import {
   Table,
   TableBody,
@@ -17,9 +17,9 @@ import { formatQuantity, formatDateTime } from "@/utils/formatters";
 import type { Reward } from "@/services/api";
 
 const statusConfig = {
-  pending: { label: "Pending", variant: "secondary" as const },
-  processing: { label: "Processing", variant: "outline" as const },
-  credited: { label: "Credited", variant: "default" as const },
+  pending: { label: "Pending", variant: "warning" as const },
+  processing: { label: "Processing", variant: "info" as const },
+  credited: { label: "Credited", variant: "success" as const },
 };
 
 export function RewardHistoryTable() {
@@ -109,7 +109,10 @@ function RewardRow({ reward }: { reward: Reward }) {
         {formatQuantity(reward.quantity)}
       </TableCell>
       <TableCell>
-        <Badge variant={config.variant}>{config.label}</Badge>
+        <Status variant={config.variant}>
+          <StatusIndicator />
+          <StatusLabel>{config.label}</StatusLabel>
+        </Status>
       </TableCell>
       <TableCell className="text-right text-muted-foreground">
         {formatDateTime(reward.timestamp)}

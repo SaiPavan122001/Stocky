@@ -3,7 +3,7 @@ import { Search, Download, Filter } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
 import {
   Select,
   SelectContent,
@@ -27,9 +27,9 @@ import { toast } from "@/hooks/use-toast";
 import type { Reward } from "@/services/api";
 
 const statusConfig = {
-  pending: { label: "Pending", variant: "secondary" as const, className: "bg-warning/10 text-warning border-warning/20" },
-  processing: { label: "Processing", variant: "outline" as const, className: "bg-accent/10 text-accent border-accent/20" },
-  credited: { label: "Credited", variant: "default" as const, className: "bg-success/10 text-success border-success/20" },
+  pending: { label: "Pending", variant: "warning" as const },
+  processing: { label: "Processing", variant: "info" as const },
+  credited: { label: "Credited", variant: "success" as const },
 };
 
 type StatusFilter = "all" | "pending" | "processing" | "credited";
@@ -200,9 +200,10 @@ function RewardRow({ reward }: { reward: Reward }) {
         {formatQuantity(reward.quantity)}
       </TableCell>
       <TableCell>
-        <Badge variant={config.variant} className={config.className}>
-          {config.label}
-        </Badge>
+        <Status variant={config.variant}>
+          <StatusIndicator />
+          <StatusLabel>{config.label}</StatusLabel>
+        </Status>
       </TableCell>
       <TableCell className="text-right text-muted-foreground">
         {formatDateTime(reward.timestamp)}
